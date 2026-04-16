@@ -783,17 +783,17 @@ Hey, my name is John Smith. I run a small landscaping business called Green Lawn
         <div class="pricing-grid">
           <div class="pricing-card" id="pkg-starter" onclick="selectPackage('starter')">
             <div class="pricing-tier">Starter</div>
-            <div class="pricing-price">$500–800</div>
+            <div class="pricing-price">From $600</div>
             <div class="pricing-includes">1–3 pages · Mobile responsive · Contact form · Basic SEO · 1 revision round</div>
           </div>
           <div class="pricing-card" id="pkg-professional" onclick="selectPackage('professional')">
             <div class="pricing-tier">Professional</div>
-            <div class="pricing-price">$1,000–1,800</div>
+            <div class="pricing-price">From $1,200</div>
             <div class="pricing-includes">Up to 6 pages · Custom design · Gallery · SEO optimization · Google Analytics · 2 revision rounds</div>
           </div>
           <div class="pricing-card" id="pkg-premium" onclick="selectPackage('premium')">
             <div class="pricing-tier">Premium</div>
-            <div class="pricing-price">$2,000–3,500+</div>
+            <div class="pricing-price">From $2,500</div>
             <div class="pricing-includes">Unlimited pages · E-commerce or booking · Custom features · Priority support · 3 revision rounds</div>
           </div>
         </div>
@@ -1179,8 +1179,22 @@ async function runScope() {
   const extraNotes = document.getElementById('scope-notes').value;
  
   const system = `You are a project scoping assistant for Caliber Web Solutions, a web design and development LLC owned by ${state.userName}.
-Packages: Starter ($500-800): 1-3 pages, mobile responsive, contact form, basic SEO, 1 revision. Professional ($1,000-1,800): up to 6 pages, custom design, gallery, SEO, analytics, 2 revisions. Premium ($2,000-3,500+): unlimited pages, e-commerce/booking, custom features, priority support, 3 revisions.
-Based on client info and selected options, provide: recommended package and why, specific deliverables list, realistic timeline, final price range, and any red flags or upsell opportunities. Be direct and practical. Format clearly with sections.`;
+ 
+Pricing minimums:
+- Starter (1-3 pages, contact form, basic SEO, 1 revision): starts at $600
+- Professional (up to 6 pages, custom design, gallery, SEO, analytics, 2 revisions): starts at $1,200
+- Premium (unlimited pages, e-commerce/booking, custom features, 3 revisions): starts at $2,500
+- Add-ons: Logo Design $150-300, Copywriting $100-200, Hosting Setup $50, Monthly Maintenance $75/mo, Ongoing SEO $150/mo, Rush Delivery +25%
+ 
+Based on the client info, selected package, and add-ons, provide:
+1. RECOMMENDED PACKAGE — which tier and why
+2. SPECIFIC PRICE — give one exact recommended dollar amount (not a range) based on complexity, number of pages, features requested, and timeline. Justify it in 1-2 sentences.
+3. DELIVERABLES — specific bullet list of exactly what is included
+4. TIMELINE — realistic start and completion estimate
+5. BUDGET CHECK — if the client's stated budget is lower than your recommended price, flag it clearly and suggest how to handle the conversation
+6. UPSELL OPPORTUNITIES — any add-ons that would genuinely benefit this client
+ 
+Be direct, practical, and specific. Format with clear section headers.`;
  
   const msg = `Client: ${JSON.stringify(state.clientData)}
 Selected package: ${state.selectedPackage || 'None yet — recommend one'}
@@ -1237,9 +1251,120 @@ Write the full proposal.`;
 async function runContract() {
   setLoading(4, true);
  
-  const system = `You are drafting a professional web design contract for Caliber Web Solutions LLC, owned by ${state.userName}, based in Ringgold, Georgia.
-Write a complete, legally-structured service agreement. Include: parties (Caliber Web Solutions LLC and client), project scope, deliverables, timeline, payment terms (50% deposit upfront, 50% on completion), revision policy, ownership/IP transfer upon full payment, client responsibilities, confidentiality, limitation of liability, termination clause, and signature blocks.
-Use plain text formatting (no markdown). Be thorough but readable. Fill in client details throughout.`;
+  const system = `You are filling in a web design contract for Caliber Web Solutions LLC, owned by ${state.userName}, based in Ringgold, Georgia.
+ 
+Use EXACTLY this contract template and fill in all the blanks based on the client and project info provided. Do not add, remove, or reword any sections. Only fill in the blank fields. Output the complete contract as plain text.
+ 
+TEMPLATE:
+CALIBER WEB SOLUTIONS LLC
+Web Design Services Agreement
+info@caliberwebco.com | caliberwebco.com | Ringgold, GA
+ 
+1. Parties
+ 
+This Web Design Services Agreement ("Agreement") is entered into as of the date signed below between:
+ 
+Service Provider: Caliber Web Solutions LLC, Ringgold, GA ("Designer")
+ 
+Client Name: ________________________________________
+ 
+Business Name: ________________________________________
+ 
+Email: ________________________________________
+ 
+Phone: ________________________________________
+ 
+2. Project Scope
+ 
+The Designer agrees to design and develop the following website for the Client:
+ 
+Project Description: __________________________________________________
+ 
+Number of Pages: ________________________________________
+ 
+Key Features/Functionality: ________________________________________
+ 
+Any features, pages, or functionality not listed above are considered out of scope and will require a separate written agreement and additional fees.
+ 
+3. Timeline
+ 
+Estimated Start Date: ________________________________________
+ 
+Estimated Completion Date: ________________________________________
+ 
+Timeline is contingent upon timely receipt of all content, materials, and feedback from the Client. Delays caused by the Client may result in a revised completion date.
+ 
+4. Payment Terms
+ 
+Total Project Cost: ____________________
+ 
+Payment Schedule:
+- 50% deposit required before work begins
+- Remaining 50% due upon project completion and before site goes live
+ 
+Accepted payment methods: Bank transfer, credit card, Zelle, Venmo.
+ 
+Invoices unpaid after 7 days may result in work being paused. A late fee of $25 may be applied after 14 days past due.
+ 
+5. Revisions
+ 
+This agreement includes the following number of revision rounds:
+ 
+Number of Revision Rounds: ________________________________________
+ 
+A revision round is defined as one consolidated list of changes submitted by the Client. Additional revisions beyond the included rounds will be billed at $75/hour.
+ 
+6. Client Responsibilities
+ 
+The Client agrees to:
+- Provide all text content, images, logos, and other materials needed for the website in a timely manner
+- Review and provide feedback within 5 business days of receiving design previews
+- Designate one primary point of contact for project communication
+- Provide accurate and complete information needed to complete the project
+ 
+7. Ownership & Rights
+ 
+Upon receipt of final payment in full, the Client owns all rights to the completed website design and content. The Designer retains the right to display the project in their portfolio and marketing materials.
+ 
+The Client represents that all content provided (text, images, logos) is owned by or licensed to the Client and does not infringe on any third-party rights.
+ 
+8. Cancellation
+ 
+If the Client cancels the project after work has begun:
+- The deposit is non-refundable
+- If work is more than 50% complete, the full project fee is owed
+ 
+If the Designer cancels the project, any deposit paid will be refunded in full.
+ 
+9. Limitation of Liability
+ 
+The Designer is not liable for any indirect, incidental, or consequential damages arising from the use of the website. The Designer's total liability under this agreement shall not exceed the total amount paid by the Client for this project.
+ 
+The Designer does not guarantee specific search engine rankings, traffic levels, or business results from the website.
+ 
+10. Hosting & Maintenance
+ 
+Unless a Monthly Care Plan is included in this agreement, the Designer is not responsible for ongoing hosting, maintenance, updates, or security of the website after delivery.
+ 
+Monthly Care Plan Included? (Yes / No): ________________________________________
+ 
+11. Governing Law
+ 
+This Agreement shall be governed by the laws of the State of Georgia. Any disputes shall be resolved in the courts of Catoosa County, Georgia.
+ 
+12. Signatures
+ 
+By signing below, both parties agree to the terms of this Agreement.
+ 
+Designer: ________________________________     Date: ________________
+ 
+Ayden, Caliber Web Solutions LLC
+ 
+Client: ________________________________     Date: ________________
+ 
+Printed Name: ________________________________
+ 
+Caliber Web Solutions LLC | info@caliberwebco.com | caliberwebco.com`;
  
   const msg = `Client Info: ${JSON.stringify(state.clientData)}
 Scope: ${state.scopeResult || 'Web design and development services as discussed'}
@@ -1353,3 +1478,4 @@ document.addEventListener('click', e => {
 </script>
 </body>
 </html>
+ 
